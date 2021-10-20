@@ -1,7 +1,7 @@
-import cheerio from 'cheerio';
-import fetch from 'node-fetch';
+import cheerio from 'cheerio'
+import fetch from 'node-fetch'
 
-const os_url = 'https://www.cs.utexas.edu/~gheith/cs439h_f21_p6.html'
+const os_url = 'https://www.cs.utexas.edu/~gheith/cs439h_f21_p7.html'
 
 export default async function fetchData() {
   const res = await fetch(os_url)
@@ -13,29 +13,42 @@ export default async function fetchData() {
 
   // Set up data to return
   const data = {
+    base_url: os_url,
     title: parsed[0], // 'cs439h_f21_p6'
     date_generated: parsed[2].substring(9), // '2021/10/19 14:55'
     date_test_cutoff: parsed[3].substring(11), // '2021/10/17 23:59'
     date_code_cutoff: parsed[4].substring(11), // '2021/10/19 23:59'
-    test_alias: [], // ['t', '0', '.'], ['0', '0', '2']
-    results: [], // { alias: '', score: '', marks: [], }
+    test_data: [],
+    submission_data: [], // { alias: '', score: '', marks: [], }
     enrollments: '', // '79'
     submissions: '', // '71'
     num_tests: '', // '61'
     weights: [], // ['t0', '4.0']
     ignored_tests: [], // ['006', '008', '018']
+    num_chosen_tests: 0,
   }
 
   // Get test aliases | ex: [ ['t', '0', '.'], ['0', '0', '2'], ...]
   for (let i = 0; i < parsed[6].length; i++) {
-    const alias = []
-    for (let j = 6; j <= 8; j++) {
-      alias.push(parsed[j].charAt(i))
+    const test_data = {
+      alias: [],
+      urls: [],
+      chosen: false,
     }
-    data.test_alias.push(alias)
+    for (let j = 6; j <= 8; j++) {
+      test_data.alias.push(parsed[j].charAt(i))
+    }
+    data.test_data.push(test_data)
   }
 
-  // Get results
+  // Get test urls
+  const num_test_aliases = data.test_data.length
+  $('a').map((i, el) => {
+    data.test_data[i % num_test_aliases].urls.push(el.attribs.href)
+    return -1
+  })
+
+  // Get submission_data
   let i = 9;
   for (; i < parsed.length; i++) {
     if (parsed[i] === '') break
@@ -58,7 +71,7 @@ export default async function fetchData() {
 
     result.marks = cur.substring(j).split('')
 
-    data.results.push(result)
+    data.submission_data.push(result)
   }
 
   // Get enrollments, submissions, tests
@@ -69,6 +82,14 @@ export default async function fetchData() {
   i++
   data.num_tests = parsed[i].substring(0, parsed[i].indexOf(' '))
   i += 4
+
+  // Get number of chosen tests
+  const num_chosen_tests = $('td[bgcolor="LightGray"]').length / data.submissions
+  data.num_chosen_tests = num_chosen_tests
+
+  for (let j = 0; j < num_chosen_tests; j++) {
+    data.test_data[j].chosen = true
+  }
 
   // Get weights for chosen tests
   for (; i < parsed.length; i++) {
