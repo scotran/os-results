@@ -10,6 +10,7 @@ module.exports = {
     'react/jsx-one-expression-per-lin': 'off',
     'react/prop-types': 'off',
     'no-plusplus': 'off',
+    'react/no-array-index-key': 'off',
     allowForLoopAfterthoughts: 0,
     semi: 0,
     camelcase: 'off',
