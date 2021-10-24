@@ -1,4 +1,4 @@
-// import Head from 'next/head'
+import Head from 'next/head'
 import { useState } from 'react'
 
 import fetchData from '../utils/fetch_data'
@@ -13,6 +13,12 @@ export default function Home({ data }) {
 
   return (
     <>
+      <Head>
+        <title>Gheith Results</title>
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <meta name="description" content="Results page for UT Austin computer science class" />
+      </Head>
+
       <div className="mt-8 ml-10 mr-10 mb-10 font-display-sans">
         <div className="inline-block w-auto border-solid border-red-400 border-2 rounded-md shadow-lg p-2 text-3xl mb-5">{data.title.split('_').join('  ')}</div>
 
