@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { useState } from 'react'
 
 import fetchData from '../utils/fetch_data'
+import getRandomQuote from '../utils/get_random_quote'
 import Test from '../components/test_element'
 import Submission from '../components/submission_element'
 
@@ -10,6 +11,8 @@ export default function Home({ data }) {
   const [viewStats, setViewStats] = useState(true)
   const [highlight, setHighlight] = useState(true)
   const [focus, setFocus] = useState(true)
+
+  const quote = getRandomQuote()
 
   return (
     <>
@@ -22,8 +25,12 @@ export default function Home({ data }) {
       <div className="mt-8 ml-10 mr-10 mb-10 font-display-sans">
         <div className="inline-block w-auto border-solid border-red-400 border-2 rounded-md shadow-lg p-2 text-3xl mb-5">{data.title.split('_').join('  ')}</div>
 
+        <div className="mb-5 font-medium font-zen-old-mincho border-t-0 border-l-0 border-r-0 border-b-2 border-pink-300">
+          {quote}
+        </div>
+
         <div>
-          <div>
+          <div className="font-display-sans">
             Search for alias
           </div>
           <input type="text" name="search" className="border-2 border-solid border-gray-200" value={search} placeholder="007_4242" onChange={(event) => setSearch(event.target.value)} />
@@ -75,7 +82,7 @@ export default function Home({ data }) {
           </div>
         </div>
 
-        <div className={`${viewStats ? '' : 'hidden'} mt-5`}>
+        <div className={`${viewStats ? '' : 'hidden'} mt-5 font-display-sans`}>
           <div className="w-full md:w-1/2 grid grid-cols-3 gap-x-0 mt-5">
             <div>generated</div>
             <div>test cutoff</div>

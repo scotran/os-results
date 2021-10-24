@@ -8,6 +8,8 @@ module.exports = {
     fontFamily: {
       'display-sans': ['Noto Sans', 'sans-serif'],
       'crimson-semi-bold': ['Crimson Text', 'serif'],
+      'playfair-display': ['Playfair Display', 'serif'],
+      'zen-old-mincho': ['Zen Old Mincho', 'serif'],
     },
   },
   variants: {

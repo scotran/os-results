@@ -8,7 +8,7 @@ export default function Submission({
 
   return (
     <>
-      <div className={`${alias === master_alias ? 'bg-blue-200 shadow-md' : ''} ${background} ${visibility} grid grid-flow-col auto-cols-min`}>
+      <div className={`${alias === master_alias ? 'bg-blue-200 shadow-md' : ''} ${background} ${visibility} grid grid-flow-col auto-cols-min font-display-sans`}>
         <div className="w-20">{alias}</div>
         <div className="w-12">{score}</div>
         {
@@ -20,7 +20,7 @@ export default function Submission({
 
             return (
               <div className={`grid justify-self-stretch w-5 ${i < num_chosen ? 'bg-gray-200' : ''}`}>
-                <div className={`justify-self-center ${mark_color}`} key={alias + i}>{mark}</div>
+                <div className={`justify-self-center ${mark_color} font-semibold`} key={alias + i}>{mark}</div>
               </div>
             )
           })
