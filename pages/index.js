@@ -49,7 +49,7 @@ export default function Home({ data }) {
                   alias={_data.alias}
                   urls={_data.urls}
                   chosen={_data.chosen}
-                  base_url={_data.base_url}
+                  base_url={data.base_url}
                   index={i}
                   key={_data.alias}
                 />

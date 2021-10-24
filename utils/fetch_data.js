@@ -13,7 +13,7 @@ export default async function fetchData() {
 
   // Set up data to return
   const data = {
-    base_url: os_url,
+    base_url: os_url.substring(0, os_url.lastIndexOf('/') + 1),
     title: parsed[0], // 'cs439h_f21_p6'
     date_generated: parsed[2].substring(9), // '2021/10/19 14:55'
     date_test_cutoff: parsed[3].substring(11), // '2021/10/17 23:59'
