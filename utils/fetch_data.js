@@ -26,6 +26,7 @@ export default async function fetchData() {
     weights: [], // ['t0', '4.0']
     ignored_tests: [], // ['006', '008', '018']
     num_chosen_tests: 0,
+    master_alias: '',
   }
 
   // Get test aliases | ex: [ ['t', '0', '.'], ['0', '0', '2'], ...]
@@ -55,13 +56,17 @@ export default async function fetchData() {
 
     const cur = parsed[i];
 
+    let j = 8;
+    if (cur.charAt(8) === '*') {
+      j = 9
+    }
+
     const result = {
-      alias: cur.substring(0, 8),
+      alias: cur.substring(0, j),
       score: '',
       marks: [],
     }
 
-    let j = 8;
     let c = cur.charAt(j);
     while (c >= '0' && c <= '9') {
       result.score += c
@@ -115,8 +120,9 @@ export default async function fetchData() {
     data.ignored_tests.push(parsed[i])
   }
 
-  // TODO: get gheith's test to highlight and highlight chosen tests
-  // parsed.forEach((el, i) => { console.log(`${i}: ${el}`) })
-  // console.log(data)
+  // Get gheith submission
+  const master_alias = $('tr[bgcolor="yellow"]').text().substring(0, 8)
+  data.master_alias = master_alias;
+
   return data
 }

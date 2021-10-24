@@ -8,19 +8,30 @@ import Submission from '../components/submission_element'
 export default function Home({ data }) {
   const [search, setSearch] = useState('')
   const [viewStats, setViewStats] = useState(true)
+  const [highlight, setHighlight] = useState(true)
+  const [focus, setFocus] = useState(true)
 
   return (
     <>
       <div className="mt-8 ml-10 mr-10 mb-10 font-display-sans">
-        <div className="inline-block w-auto border-solid border-red-400 border-2 rounded-md shadow-md p-2 text-3xl mb-3">{data.title.split('_').join('  ')}</div>
+        <div className="inline-block w-auto border-solid border-red-400 border-2 rounded-md shadow-lg p-2 text-3xl mb-5">{data.title.split('_').join('  ')}</div>
 
         <div>
-          <input type="text" name="search" className="border-2 border-solid border-gray-200" value={search} onChange={(event) => setSearch(event.target.value)} />
+          <div>
+            Search for alias
+          </div>
+          <input type="text" name="search" className="border-2 border-solid border-gray-200" value={search} placeholder="007_4242" onChange={(event) => setSearch(event.target.value)} />
         </div>
 
         <div className="mt-5">
           <input type="checkbox" name="showStats" value={viewStats} onChange={() => setViewStats(!viewStats)} defaultChecked />
-          <span>Show Stats</span>
+          <span className="m-3">Show Stats</span>
+
+          <input type="checkbox" name="highlight" value={highlight} onChange={() => setHighlight(!highlight)} defaultChecked />
+          <span className="m-3">Highlight</span>
+
+          <input type="checkbox" name="focus" value={focus} onChange={() => setFocus(!focus)} defaultChecked />
+          <span className="m-3">Focus</span>
         </div>
 
         <div className="grid">
@@ -48,6 +59,9 @@ export default function Home({ data }) {
                   marks={_data.marks}
                   num_chosen={data.num_chosen_tests}
                   search={search}
+                  highlight={highlight}
+                  focus={focus}
+                  master_alias={data.master_alias}
                   key={_data.alias}
                 />
               ))
@@ -55,7 +69,7 @@ export default function Home({ data }) {
           </div>
         </div>
 
-        <div className={`${viewStats ? '' : 'hidden'} mt-10`}>
+        <div className={`${viewStats ? '' : 'hidden'} mt-5`}>
           <div className="w-full md:w-1/2 grid grid-cols-3 gap-x-0 mt-5">
             <div>generated</div>
             <div>test cutoff</div>
@@ -97,12 +111,27 @@ export default function Home({ data }) {
             <div>__</div>
           </div>
           <div className="w-full md:w-1/2 grid grid-cols-2 gap-x-0">
-            <div>{data.enrollments}</div>
-            <div>{data.submissions}</div>
+            <div className="flex flex-col">
+              {
+                data.weights.map((_data) => (
+                  <div>
+                    {_data[0]}
+                    {' '}
+                    {_data[1]}
+                  </div>
+                ))
+              }
+            </div>
+
+            <div className="flex flex-col">
+              {
+                data.ignored_tests.map((_data) => (
+                  <div>{_data}</div>
+                ))
+              }
+            </div>
           </div>
-
         </div>
-
       </div>
     </>
   )
