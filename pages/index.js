@@ -6,13 +6,11 @@ import getRandomQuote from '../utils/get_random_quote'
 import Test from '../components/test_element'
 import Submission from '../components/submission_element'
 
-export default function Home({ data }) {
+export default function Home({ data, quote }) {
   const [search, setSearch] = useState('')
   const [viewStats, setViewStats] = useState(true)
   const [highlight, setHighlight] = useState(true)
   const [focus, setFocus] = useState(true)
-
-  const quote = getRandomQuote()
 
   return (
     <>
@@ -152,5 +150,6 @@ export default function Home({ data }) {
 
 export async function getServerSideProps() {
   const data = await fetchData();
-  return { props: { data } }
+  const quote = getRandomQuote()
+  return { props: { data, quote } }
 }
