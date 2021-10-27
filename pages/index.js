@@ -8,7 +8,7 @@ import Submission from '../components/submission_element'
 
 export default function Home({ data, quote }) {
   const [search, setSearch] = useState('')
-  const [viewStats, setViewStats] = useState(true)
+  const [viewStats, setViewStats] = useState(false)
   const [highlight, setHighlight] = useState(true)
   const [focus, setFocus] = useState(true)
   const [searchTest, setSearchTest] = useState(false)
@@ -100,7 +100,7 @@ export default function Home({ data, quote }) {
           <input type="checkbox" name="focus" value={focus} onChange={() => setFocus(!focus)} defaultChecked />
           <span className="m-3">Focus</span>
 
-          <input type="checkbox" name="showStats" value={viewStats} onChange={() => setViewStats(!viewStats)} defaultChecked />
+          <input type="checkbox" name="showStats" value={viewStats} onChange={() => setViewStats(!viewStats)} />
           <span className="m-3">Show Stats</span>
         </div>
 
