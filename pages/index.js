@@ -74,9 +74,9 @@ export default function Home({ data, quote }) {
             name="searchTest"
             value={searchTest}
             onChange={
-              () => {
+              (event) => {
                 setSearchTest(!searchTest)
-                if (searchTest) {
+                if (event.target.checked) {
                   // Find the corresponding index
                   for (let i = 0; i < data.test_data.length; i++) {
                     const alias_array = data.test_data[i].alias
