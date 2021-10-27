@@ -9,9 +9,13 @@ export default function Test({
   if (searchTestIndex === index) {
     markBackground = highlight ? 'bg-pink-200 shadow-md' : '';
   }
+  let aliasBackground = '';
+  if (searchTestIndex !== index && chosen) {
+    aliasBackground = 'bg-gray-200'
+  }
 
   return (
-    <div className={`${chosen ? 'bg-gray-200' : ''} ${index % 2 === 0 ? 'text-green-900' : 'text-pink-900'} ${markBackground} ${markVisibility} justify-self-stretch grid text-s font-crimson-semi-bold p-1 w-5 hover:cursor-pointer`}>
+    <div className={`${aliasBackground} ${index % 2 === 0 ? 'text-green-900' : 'text-pink-900'} ${markBackground} ${markVisibility} justify-self-stretch grid text-s font-crimson-semi-bold p-1 w-5 hover:cursor-pointer`}>
       <div className="justify-self-center">
         <a href={base_url + urls[0]} rel="noreferrer" target="_blank">
           {alias[0]}

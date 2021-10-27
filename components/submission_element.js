@@ -30,7 +30,7 @@ export default function Submission({
             else if (mark === 'X') mark_color = 'text-red-500'
 
             return (
-              <div className={`grid justify-self-stretch w-5 ${i === searchTestIndex ? markBackground : ''} ${i === searchTestIndex ? '' : markVisibility} ${i < num_chosen ? 'bg-gray-200' : ''}`}>
+              <div className={`grid justify-self-stretch w-5 ${i === searchTestIndex ? markBackground : ''} ${i === searchTestIndex ? '' : markVisibility} ${i < num_chosen && i !== searchTestIndex ? 'bg-gray-200' : ''}`}>
                 <div className={`justify-self-center ${mark_color} font-semibold`} key={alias + i}>{mark}</div>
               </div>
             )
