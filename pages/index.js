@@ -11,6 +11,9 @@ export default function Home({ data, quote }) {
   const [viewStats, setViewStats] = useState(true)
   const [highlight, setHighlight] = useState(true)
   const [focus, setFocus] = useState(true)
+  const [searchTest, setSearchTest] = useState(false)
+  const [searchSubmission, setSearchSubmission] = useState(true)
+  const [searchTestIndex, setSearchTestIndex] = useState(-1)
 
   return (
     <>
@@ -31,18 +34,74 @@ export default function Home({ data, quote }) {
           <div className="font-display-sans">
             Search for alias
           </div>
-          <input type="text" name="search" className="border-2 border-solid border-gray-200" value={search} placeholder="007_4242" onChange={(event) => setSearch(event.target.value)} />
+          <input
+            type="text"
+            name="search"
+            className="border-2 border-solid border-gray-200"
+            value={search}
+            placeholder="007_4242"
+            onChange={
+            (event) => {
+              const val = event.target.value
+
+              setSearch(val)
+
+              if (val === '') {
+                setSearchTestIndex(-1)
+              } else if (searchTest) {
+                // Find the corresponding index
+                for (let i = 0; i < data.test_data.length; i++) {
+                  const alias_array = data.test_data[i].alias
+                  const alias_str = alias_array.join('')
+                  if (val.startsWith(alias_str) || alias_str.startsWith(val)) {
+                    setSearchTestIndex(i);
+                    break;
+                  }
+                }
+              }
+            }
+          }
+          />
         </div>
 
         <div className="mt-5">
-          <input type="checkbox" name="showStats" value={viewStats} onChange={() => setViewStats(!viewStats)} defaultChecked />
-          <span className="m-3">Show Stats</span>
+
+          <input type="checkbox" name="searchSubmission" value={searchSubmission} onChange={() => setSearchSubmission(!searchSubmission)} defaultChecked />
+          <span className="m-3">Submission</span>
+
+          <input
+            type="checkbox"
+            name="searchTest"
+            value={searchTest}
+            onChange={
+              () => {
+                setSearchTest(!searchTest)
+                if (searchTest) {
+                  // Find the corresponding index
+                  for (let i = 0; i < data.test_data.length; i++) {
+                    const alias_array = data.test_data[i].alias
+                    const alias_str = alias_array.join('')
+                    if (search.startsWith(alias_str) || alias_str.startsWith(search)) {
+                      setSearchTestIndex(i);
+                      break;
+                    }
+                  }
+                } else {
+                  setSearchTestIndex(-1)
+                }
+              }
+            }
+          />
+          <span className="m-3">Test</span>
 
           <input type="checkbox" name="highlight" value={highlight} onChange={() => setHighlight(!highlight)} defaultChecked />
           <span className="m-3">Highlight</span>
 
           <input type="checkbox" name="focus" value={focus} onChange={() => setFocus(!focus)} defaultChecked />
           <span className="m-3">Focus</span>
+
+          <input type="checkbox" name="showStats" value={viewStats} onChange={() => setViewStats(!viewStats)} defaultChecked />
+          <span className="m-3">Show Stats</span>
         </div>
 
         <div className="grid">
@@ -55,6 +114,9 @@ export default function Home({ data, quote }) {
                   urls={_data.urls}
                   chosen={_data.chosen}
                   base_url={data.base_url}
+                  searchTestIndex={searchTestIndex}
+                  highlight={highlight}
+                  focus={focus}
                   index={i}
                   key={_data.alias}
                 />
@@ -70,6 +132,8 @@ export default function Home({ data, quote }) {
                   marks={_data.marks}
                   num_chosen={data.num_chosen_tests}
                   search={search}
+                  searchSubmission={searchSubmission}
+                  searchTestIndex={searchTestIndex}
                   highlight={highlight}
                   focus={focus}
                   master_alias={data.master_alias}
