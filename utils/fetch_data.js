@@ -1,7 +1,7 @@
 import cheerio from 'cheerio'
 import fetch from 'node-fetch'
 
-const os_url = 'https://www.cs.utexas.edu/~gheith/cs439h_f21_p7.html'
+const os_url = 'https://www.cs.utexas.edu/~gheith/cs439h_f21_p8.html'
 
 export default async function fetchData() {
   const res = await fetch(os_url)
